@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{super()}}
+    <style type="text/css">
+        /* 
+        Max width before this PARTICULAR table gets nasty
+        This query will take effect for any screen smaller than 760px
+        and also iPads specifically.
+        */
+        @media 
+        only screen and (max-width: 760px),
+        (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+            /* Force table to not be like tables anymore */
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+            }
+            
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            tr { border: 1px solid #ccc; }
+            
+            td { 
+                /* Behave  like a "row" */
+                border: none;
+                border-bottom: 1px solid #eee; 
+                position: relative;
+                padding-left: 50%; 
+            }
+            
+            td:before { 
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%; 
+                padding-right: 10px; 
+                white-space: nowrap;
+            }
+            
+            /*
+            Label the data
+            */
+            td:nth-of-type(1):before { content: "Name"; }
+            td:nth-of-type(2):before { content: "Database"; }
+            td:nth-of-type(3):before { content: "DB User"; }
+            td:nth-of-type(4):before { content: "DB Password"; }
+            td:nth-of-type(5):before { content: "DB Prefix"; }
+            td:nth-of-type(6):before { content: "URL"; }
+            td:nth-of-type(7):before { content: "Status"; }
+            td:nth-of-type(8):before { content: "Actions"; }
+        }
+    </style>
+{% endblock %}
+
+{% block app_content %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Database</th>
+                <th>DB User</th>
+                <th>DB Password</th>
+                <th>DB Prefix</th>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ container.name }}</td>
+                <td>{{ container.database }}</td>
+                <td>{{ container.db_user }}</td>
+                <td>{{ container.db_pw }}</td>
+                <td>{{ container.prefix }}</td>
+                <td>{{ container.url }}</td>
+                <td>{{ container.status }}</td>
+                <td>
+                    <a href="{{url_for('edit_container', container=container.id)}}" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                    <a href="{{url_for('db_upload', directory=container.name)}}" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-open"></span>
+                    </a>
+                    <a href="{{url_for('db_backup', container=container.id)}}" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </a>
+                    <button type="button" class="btn btn-default btn-sm" onclick="removeContainer('{{container.id}}')">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

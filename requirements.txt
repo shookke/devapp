@@ -1,0 +1,9 @@
+Flask
+flask-wtf
+flask-sqlalchemy
+flask-migrate
+flask-login
+flask-bootstrap
+python-jenkins
+werkzeug
+rq

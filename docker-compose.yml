@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+   db:
+    image: mysql:5.7
+    security_opt:
+      - apparmor:unconfined
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: r!$s2^fL3lp7OV70r$JjKO79
+      MYSQL_DATABASE: "devappdb"
+      MYSQL_USER: "nsyncadmin"
+      MYSQL_PASSWORD: "r!$s2^fL3lp7OV70r$JjKO79"
+    volumes:
+      - db_data:/var/lib/mysql
+
+   app:
+     security_opt:
+      - apparmor:unconfined
+     restart: always
+     build: ./
+     volumes:
+      - ./migrations:/home/nsync/migrations
+     links:
+      - db
+     ports:
+      - "9000:5000"
+     environment:
+      DATABASE_URL: mysql+pymysql://nsyncadmin:r!$s2^fL3lp7OV70r$JjKO79@db/devappdb
+volumes:
+    db_data:
+

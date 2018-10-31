@@ -1,0 +1,8 @@
+    <tr>
+        <td>
+            {{ container.url }}
+        </td>
+        <td id='status{{ container.id }}' style="width:100px;">
+            <button type="button" class="btn {% if container.status  == 'SUCCESS' %}btn-success{% endif %}"></button>
+        </td>
+    </tr>

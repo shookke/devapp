@@ -1,0 +1,28 @@
+    <tr>
+        <td>
+            <a href="http://{{ container.url }}" id="dev-link{{ container.id }}" target="_blank">{{ container.url }}</a>
+        </td>
+        <td>
+            {{ container.name }}
+        </td>
+        <td id='status{{ container.id }}'>{{ container.status }}</td>
+        <td>
+            <a href="{{url_for('container', container=container.id)}}" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-folder-open"></span> View
+            </a>
+            <a href="{{url_for('edit_container', container=container.id)}}" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-cog"></span>
+            </a>
+        </td>
+        <td>
+            <!-- Rounded switch -->
+            <label class="switch">
+                {% if container.status == 'SUCCESS' %}
+                <input id='switch{{ container.id }}' type="checkbox" checked="checked">
+                {% else %}
+                <input id='switch{{ container.id }}' type="checkbox">
+                {% endif %}
+                <span class="slider round" onclick="toggle('{{container.id}}')"></span>
+            </label>
+        </td>
+    </tr>

@@ -1,0 +1,99 @@
+{% extends 'bootstrap/base.html' %}
+    {% block styles %}
+        {{super()}}
+        <link rel="stylesheet"
+            href="{{url_for('.static', filename='styles/style.css')}}">
+    {% endblock %}
+    {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            function removeContainer(id) {
+                $('.btn').html('<img src="{{ url_for('.static', filename='img/loading.gif') }}">');
+                $.post('/manager/container/remove/' + id
+                ).done(function(response) {
+                    $('#alert').addClass('alert alert-success alert-dismissible fade in')
+                    $('#alert').append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>')
+                    $('#alert').append('<strong>Success:</strong>' + response['status'])
+                    window.location.replace('/manager')
+                }).fail(function() {
+                    $('#alert').addClass('alert alert-danger alert-dismissible fade in')
+                    $('#alert').append('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>')
+                    $('#alert').append('<strong>Error:</strong> Could not contact server.')
+                });
+            }
+            function toggle(id) {
+                var switchId = $('#status' + id).html();
+                console.log(switchId)
+                switch (switchId) {
+                    case 'SUCCESS':
+                        console.log('SUCCESS');
+                        build('#status' + id, 'down-container', id);
+                        break;
+                    case 'DOWN':
+                        build('#status' + id, 'up-container', id);
+                        break;
+                    case 'None':
+                        build('#status' + id, 'build-wordpress', id);
+                        break;
+                }
+            }
+            function build(destElem, job, item) {
+                $(destElem).html('<img src="{{ url_for('.static', filename='img/loading.gif') }}">');
+                $.post('/manager/' + job + '/' + item
+                ).done(function(response) {
+                    $(destElem).text(response['status']);
+                }).fail(function() {
+                    $(destElem).text('Error: Could not contact server.');
+                });
+            }
+        </script>
+    {% endblock %}
+      {% block title %}
+            {% if title %}{{ title }} - Nsync Development{% else %}Nsync Development{% endif %}
+      {% endblock %}
+      {% block navbar %}
+      <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{url_for('.static', filename='img/logo.png')}}" style="width:120px; display: inline-block;"/> Development</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('manager') }}">Manage</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_anonymous %}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        {% else %}
+                        <li><a href="{{ url_for('user', username=current_user.username) }}">Profile</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+      {% endblock %}
+        {% block content %}
+        <div class="container">
+                <div id="alert"></div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+    
+            {# application content needs to be provided in the app_content block #}
+            {% block app_content %}{% endblock %}
+        </div>
+        <img src="{{ url_for('.static', filename='img/loading.gif') }}" style="display:none;">
+{% endblock %}
