@@ -3,6 +3,7 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_security import Security, SQLAlchemyUserDatastore
 from flask_bootstrap import Bootstrap
 import logging, os
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -19,6 +20,11 @@ login = LoginManager(app)
 login.login_view = 'login'
 
 bootstrap = Bootstrap(app)
+
+# Setup Flask-Security
+from app.models import User, Role
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
 
 if not app.debug:
     if app.config['MAIL_SERVER']:

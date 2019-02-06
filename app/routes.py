@@ -2,7 +2,8 @@ import os
 import time
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
-from app import app, db
+from flask_security.utils import hash_password
+from app import app, db, user_datastore
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, ContainerForm, EditContainerForm, UploadForm
 from app.models import User, Container
 from app.job import build_job

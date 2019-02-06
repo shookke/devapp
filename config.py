@@ -21,3 +21,5 @@ class Config(object):
 
     HOST_ADDRESS = '10.200.11.6'
     UPLOAD_PATH = '/var/build/'
+
+    SECURITY_PASSWORD_SALT = 'ay7k3gN1BKhgIOSLRL5QSgvee'

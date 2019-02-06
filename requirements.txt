@@ -3,7 +3,10 @@ flask-wtf
 flask-sqlalchemy
 flask-migrate
 flask-login
+flask-admin
+flask-security
 flask-bootstrap
 python-jenkins
+bcrypt
 werkzeug
 rq
