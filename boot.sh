@@ -1,6 +1,6 @@
 #!/bin/sh
 source venv/bin/activate
-flask db migrate "users & container table"
+flask db migrate -m "users & container table"
 
 while true; do
     flask db upgrade

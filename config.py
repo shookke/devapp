@@ -13,8 +13,7 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
-    ADMINS = ['kevin@nsyncdata.net']
-    ADMPW = 'j6b4a8krG3iXpN3'
+    ADMINS = [{u:'kevin@nsyncdata.net', p:'j6b4a8krG3iXpN3'}]
 
     JENKINS_URL = 'http://dev.nsyncdata.net:8080'
     JENKINS_TOKEN = '11b43739274d46ac9fe24ded95c86c901e'
