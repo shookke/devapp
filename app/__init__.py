@@ -30,6 +30,7 @@ security = Security(app, user_datastore)
 
 admin = Admin(app, name='devapp', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Role, db.session))
 admin.add_view(ModelView(Container, db.session))
 
 if not app.debug:
