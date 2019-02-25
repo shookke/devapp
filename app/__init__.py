@@ -18,20 +18,19 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from app.models import User, Container
-admin = Admin(app, name='devapp', template_mode='bootstrap3')
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Container, db.session))
-
 login = LoginManager(app)
 login.login_view = 'login'
 
 bootstrap = Bootstrap(app)
 
 # Setup Flask-Security
-from app.models import User, Role
+from app.models import User, Role, Container
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+
+admin = Admin(app, name='devapp', template_mode='bootstrap3')
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Container, db.session))
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
