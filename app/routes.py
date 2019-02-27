@@ -3,7 +3,6 @@ import time
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from flask_security.utils import hash_password
-from flask_admin import helpers as admin_helpers
 from app import app, db, user_datastore, security, admin
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, ContainerForm, EditContainerForm, UploadForm
 from app.models import User, Container
@@ -11,17 +10,6 @@ from app.job import build_job
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from datetime import datetime
-
-# define a context processor for merging flask-admin's template context into the
-# flask-security views.
-@security.context_processor
-def security_context_processor():
-    return dict(
-        admin_base_template=admin.base_template,
-        admin_view=admin.index_view,
-        h=admin_helpers,
-        get_url=url_for
-    )
 
 @app.before_request
 def before_request():

@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask, url_for
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_admin import Admin
-from flask_login import LoginManager
+from flask_admin import helpers as admin_helpers
+#from flask_login import LoginManager
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_bootstrap import Bootstrap
 from flask_admin.contrib.sqla import ModelView
@@ -18,8 +19,8 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-login = LoginManager(app)
-login.login_view = 'login'
+#login = LoginManager(app)
+#login.login_view = 'login'
 
 bootstrap = Bootstrap(app)
 
@@ -32,6 +33,17 @@ admin = Admin(app, name='devapp', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Role, db.session))
 admin.add_view(ModelView(Container, db.session))
+
+# define a context processor for merging flask-admin's template context into the
+# flask-security views.
+@security.context_processor
+def security_context_processor():
+    return dict(
+        admin_base_template=admin.base_template,
+        admin_view=admin.index_view,
+        h=admin_helpers,
+        get_url=url_for
+    )
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
