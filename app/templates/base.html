@@ -2,14 +2,14 @@
     {% block styles %}
         {{super()}}
         <link rel="stylesheet"
-            href="{{url_for('.static', filename='styles/style.css')}}">
+            href="{{url_for('static', filename='styles/style.css')}}">
     {% endblock %}
     {% block scripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script>
             function removeContainer(id) {
-                $('.btn').html('<img src="{{ url_for('.static', filename='img/loading.gif') }}">');
+                $('.btn').html('<img src="{{ url_for('static', filename='img/loading.gif') }}">');
                 $.post('/manager/container/remove/' + id
                 ).done(function(response) {
                     $('#alert').addClass('alert alert-success alert-dismissible fade in')
@@ -39,7 +39,7 @@
                 }
             }
             function build(destElem, job, item) {
-                $(destElem).html('<img src="{{ url_for('.static', filename='img/loading.gif') }}">');
+                $(destElem).html('<img src="{{ url_for('static', filename='img/loading.gif') }}">');
                 $.post('/manager/' + job + '/' + item
                 ).done(function(response) {
                     $(destElem).text(response['status']);
@@ -62,7 +62,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{url_for('.static', filename='img/logo.png')}}" style="width:120px; display: inline-block;"/> Development</a>
+                    <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{url_for('static', filename='img/logo.png')}}" style="width:120px; display: inline-block;"/> Development</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
@@ -95,5 +95,5 @@
             {# application content needs to be provided in the app_content block #}
             {% block app_content %}{% endblock %}
         </div>
-        <img src="{{ url_for('.static', filename='img/loading.gif') }}" style="display:none;">
+        <img src="{{ url_for('static', filename='img/loading.gif') }}" style="display:none;">
 {% endblock %}
