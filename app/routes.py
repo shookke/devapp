@@ -1,7 +1,7 @@
 import os
 import time
 from flask import render_template, flash, redirect, url_for, request, jsonify
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_security import current_user, login_user, logout_user, login_required
 from flask_security.utils import hash_password
 from app import app, db, user_datastore, security, admin
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, ContainerForm, EditContainerForm, UploadForm
@@ -168,7 +168,7 @@ def db_upload(directory):
     form = UploadForm()
     if form.validate_on_submit():
         sql_data = request.FILES[form.sql.name].read()
-        open(os.path.join(UPLOAD_PATH, directory, form.sql.data), 'w').write(sql_data)
+        open(os.path.join(app.config['UPLOAD_PATH'], directory, form.sql.data), 'w').write(sql_data)
         flash('File has been imported')
         return redirect(url_for('manager'))
     return render_template('db_upload.html', title='Upload', form=form)

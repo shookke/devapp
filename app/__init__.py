@@ -5,9 +5,9 @@ from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin import helpers as admin_helpers
 from flask_login import LoginManager
-from flask_security import Security, SQLAlchemyUserDatastore
+from flask_security import Security, SQLAlchemyUserDatastore, current_user
 from flask_bootstrap import Bootstrap
-from flask_admin.contrib.sqla import ModelView
+from app.model_views import DevappModelView
 import logging, os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
@@ -30,9 +30,9 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
 admin = Admin(app, name='devapp', template_mode='bootstrap3')
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Role, db.session))
-admin.add_view(ModelView(Container, db.session))
+admin.add_view(DevappModelView(User, db.session))
+admin.add_view(DevappModelView(Role, db.session))
+admin.add_view(DevappModelView(Container, db.session))
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
