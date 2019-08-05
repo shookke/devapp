@@ -19,6 +19,9 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+db.session.add(app.config['ADMINS'])
+db.session.commit()
+
 login = LoginManager(app)
 login.login_view = 'login'
 
