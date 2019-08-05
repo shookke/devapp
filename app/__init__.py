@@ -29,17 +29,21 @@ from app.models import User, Role, Container
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
-admin_init = User(username=app.config['ADMINS'][0]['username'],
-                email=app.config['ADMINS'][0]['email'],
-                roles='Admin')
-admin_init.set_password(app.config['ADMINS'][0]['password'])
-db.session.add(admin_init)
-db.session.commit()
-
 admin = Admin(app, name='devapp', template_mode='bootstrap3')
 admin.add_view(DevappModelView(User, db.session))
 admin.add_view(DevappModelView(Role, db.session))
 admin.add_view(DevappModelView(Container, db.session))
+
+admin_role = Role(name='superuser')
+db.session.add(admin_role)
+db.session.commit()
+
+admin_init = User(username=app.config['ADMINS'][0]['username'],
+                email=app.config['ADMINS'][0]['email'],
+                roles='superuser')
+admin_init.set_password(app.config['ADMINS'][0]['password'])
+db.session.add(admin_init)
+db.session.commit()
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
