@@ -31,7 +31,7 @@ security = Security(app, user_datastore)
 
 admin_init = User(username=app.config['ADMINS'][0]['username'],
                 email=app.config['ADMINS'][0]['email'],
-                admin=True)
+                roles='Admin')
 admin_init.set_password(app.config['ADMINS'][0]['password'])
 db.session.add(admin_init)
 db.session.commit()
