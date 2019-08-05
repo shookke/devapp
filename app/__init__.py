@@ -29,10 +29,10 @@ from app.models import User, Role, Container
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
-admin_init = User(username=app.config['ADMINS']['username'],
-                email=app.config['ADMINS']['email'],
+admin_init = User(username=app.config['ADMINS'][0]['username'],
+                email=app.config['ADMINS'][0]['email'],
                 admin=True)
-admin_init.set_password(app.config['ADMINS']['password'])
+admin_init.set_password(app.config['ADMINS'][0]['password'])
 db.session.add(admin_init)
 db.session.commit()
 
