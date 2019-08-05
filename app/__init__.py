@@ -19,9 +19,6 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-db.session.add(app.config['ADMINS'])
-db.session.commit()
-
 login = LoginManager(app)
 login.login_view = 'login'
 
@@ -31,6 +28,13 @@ bootstrap = Bootstrap(app)
 from app.models import User, Role, Container
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+
+admin_init = User(username=app.config['ADMINS']['username'],
+                email=app.config['ADMINS']['email'],
+                admin=True)
+admin_init.set_password(app.config['ADMINS']['password'])
+db.session.add(admin_init)
+db.session.commit()
 
 admin = Admin(app, name='devapp', template_mode='bootstrap3')
 admin.add_view(DevappModelView(User, db.session))
