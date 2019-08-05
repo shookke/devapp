@@ -37,11 +37,11 @@ admin.add_view(DevappModelView(Container, db.session))
 #admin_role = Role(name='superuser')
 #db.session.add(admin_role)
 #db.session.commit()
-
+role = Role.query.filter_by(name='superuser').first()
 admin_init = User(username=app.config['ADMINS'][0]['username'],
                 email=app.config['ADMINS'][0]['email'],
                 password=app.config['ADMINS'][0]['password'])
-admin_init.roles.append(Role.query.filter_by(name='superuser').first())
+admin_init.roles.append(role)
 db.session.add(admin_init)
 db.session.commit()
 
