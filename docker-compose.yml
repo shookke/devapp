@@ -20,7 +20,7 @@ services:
      restart: always
      build: ./
      volumes:
-      - ./migrations:/home/nsync/migrations
+      - ./migrations:/home/shookke/migrations
      links:
       - db
      ports:

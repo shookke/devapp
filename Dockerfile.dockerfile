@@ -2,7 +2,7 @@ FROM python:3.6.6-alpine
 
 RUN adduser -D nsync
 
-WORKDIR /home/nsync
+WORKDIR /home/shookke
 
 RUN apk add --no-cache --virtual .pynacl_deps build-base python3-dev libffi-dev openssl-dev
 
@@ -25,8 +25,8 @@ ENV MAIL_USE_TLS=1
 ENV MAIL_USERNAME=kevin
 ENV MAIL_PASSWORD=Firefly1
 
-RUN chown -R nsync:nsync ./
-USER nsync
+RUN chown -R shookke:shookke ./
+USER shookke
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
