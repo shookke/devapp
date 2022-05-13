@@ -19,14 +19,14 @@ COPY devapp.py config.py boot.sh ./
 RUN chmod +x boot.sh
 
 ENV FLASK_APP devapp.py
-ENV MAIL_SERVER=mail.nsyncdata.net
-ENV MAIL_PORT=587
-ENV MAIL_USE_TLS=1
-ENV MAIL_USERNAME=kevin
-ENV MAIL_PASSWORD=Firefly1
+# ENV MAIL_SERVER=mail.nsyncdata.net
+# ENV MAIL_PORT=587
+# ENV MAIL_USE_TLS=1
+# ENV MAIL_USERNAME=kevin
+# ENV MAIL_PASSWORD=Firefly1
 
-RUN chown -R shookke:shookke ./
-USER shookke
+#RUN chown -R shookke:shookke ./
+#USER shookke
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
